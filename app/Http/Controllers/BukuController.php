@@ -7,20 +7,32 @@ use App\Models\KategoriBuku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controller untuk manajemen data buku.
+ */
 class BukuController extends Controller
 {
+    /**
+     * Menampilkan daftar buku dengan pagination.
+     */
     public function index()
     {
         $bukus = Buku::latest()->paginate(15);
         return view('buku.index', compact('bukus'));
     }
 
+    /**
+     * Menampilkan form tambah buku.
+     */
     public function create()
     {
         $kategoris = KategoriBuku::orderBy('nama')->get();
         return view('buku.create', compact('kategoris'));
     }
 
+    /**
+     * Menyimpan data buku baru beserta cover dan relasi kategori.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -45,11 +57,17 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan.');
     }
 
+    /**
+     * Mengarahkan detail buku ke halaman index (fitur detail belum dipakai).
+     */
     public function show(Buku $buku)
     {
         return redirect()->route('buku.index');
     }
 
+    /**
+     * Menampilkan form edit buku beserta kategori yang tersedia.
+     */
     public function edit(Buku $buku)
     {
         $kategoris = KategoriBuku::orderBy('nama')->get();
@@ -57,6 +75,9 @@ class BukuController extends Controller
         return view('buku.edit', compact('buku', 'kategoris'));
     }
 
+    /**
+     * Memperbarui data buku dan mengganti cover lama jika ada upload baru.
+     */
     public function update(Request $request, Buku $buku)
     {
         $request->validate([
@@ -84,6 +105,9 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Data buku berhasil diperbarui.');
     }
 
+    /**
+     * Menghapus data buku dan file cover terkait.
+     */
     public function destroy(Buku $buku)
     {
         if ($buku->cover) {

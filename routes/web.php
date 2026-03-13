@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
 
     // Semua role: lihat buku (read-only)
     Route::get('buku', [BukuController::class, 'index'])->name('buku.index');
-    Route::get('buku/{buku}', [BukuController::class, 'show'])->name('buku.show');
+    Route::get('buku/{buku}', [BukuController::class, 'show'])->whereNumber('buku')->name('buku.show');
 
     // Peminjam: buat peminjaman + lihat peminjaman sendiri
     Route::get('peminjaman/saya', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');

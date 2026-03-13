@@ -1,6 +1,7 @@
 <x-app-layout>
     @section('title', 'Tambah Buku')
 
+    {{-- Header halaman --}}
     <x-slot name="header">
         <h1 class="text-xl font-semibold text-gray-800">Tambah Buku</h1>
     </x-slot>
@@ -14,6 +15,7 @@
         <span class="text-gray-800 font-medium">Tambah</span>
     </nav>
 
+    {{-- Container utama form input buku --}}
     <div class="max-w-2xl">
         <div class="bg-white rounded-xl border border-gray-200">
 
@@ -22,9 +24,11 @@
                 <p class="text-sm text-gray-500 mt-0.5">Isi data buku yang akan ditambahkan ke perpustakaan</p>
             </div>
 
+            {{-- Form tambah buku (multipart karena mendukung upload cover) --}}
             <form method="POST" action="{{ route('buku.store') }}" class="p-6 space-y-5" enctype="multipart/form-data">
                 @csrf
 
+                {{-- Input identitas buku --}}
                 <div>
                     <label for="judul" class="block text-sm font-medium text-gray-700 mb-1">
                         Judul Buku <span class="text-red-500">*</span>
@@ -110,6 +114,7 @@
                 </div>
 
                 <div>
+                    {{-- Pilihan kategori many-to-many untuk buku --}}
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Kategori Buku
                     </label>
@@ -137,6 +142,7 @@
                     @enderror
                 </div>
 
+                {{-- Aksi form --}}
                 <div class="flex items-center gap-3 pt-4 border-t border-gray-200">
                     <button type="submit"
                             class="px-5 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition">
