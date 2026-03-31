@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
+    // Menampilkan daftar seluruh data peminjaman beserta relasi user dan buku.
     public function index()
     {
         $peminjamans = Peminjaman::with(['user', 'buku'])->latest()->paginate(15);
         return view('peminjaman.index', compact('peminjamans'));
     }
 
+    // Menampilkan form pencatatan peminjaman baru dengan daftar user dan buku.
     public function create()
     {
         $users = User::orderBy('nama_lengkap')->get();
@@ -23,6 +25,7 @@ class PeminjamanController extends Controller
         return view('peminjaman.create', compact('users', 'bukus'));
     }
 
+    // Memvalidasi input lalu menyimpan transaksi peminjaman baru.
     public function store(Request $request)
     {
         $request->validate([
@@ -43,6 +46,7 @@ class PeminjamanController extends Controller
         return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil dicatat.');
     }
 
+    // Memperbarui status peminjaman menjadi dikembalikan.
     public function update(Request $request, Peminjaman $peminjaman)
     {
         $peminjaman->update([
@@ -52,6 +56,7 @@ class PeminjamanController extends Controller
         return redirect()->route('peminjaman.index')->with('success', 'Buku berhasil dikembalikan.');
     }
 
+    // Menghapus riwayat peminjaman tertentu dari database.
     public function destroy(Peminjaman $peminjaman)
     {
         $peminjaman->delete();
@@ -60,6 +65,7 @@ class PeminjamanController extends Controller
 
     // === Peminjam-specific methods ===
 
+    // Menampilkan riwayat peminjaman milik pengguna yang sedang login.
     public function riwayat()
     {
         $peminjamans = Peminjaman::with('buku')
@@ -70,12 +76,14 @@ class PeminjamanController extends Controller
         return view('peminjaman.riwayat', compact('peminjamans'));
     }
 
+    // Menampilkan daftar buku untuk dipilih pada proses peminjaman mandiri.
     public function pinjam()
     {
         $bukus = Buku::orderBy('judul')->get();
         return view('peminjaman.pinjam', compact('bukus'));
     }
 
+    // Memvalidasi lalu menyimpan peminjaman baru oleh pengguna yang sedang login.
     public function storePinjam(Request $request)
     {
         $request->validate([

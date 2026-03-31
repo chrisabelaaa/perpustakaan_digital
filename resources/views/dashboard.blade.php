@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            {{-- Kategori --}}
+        
             <div class="bg-white rounded-xl border border-gray-200 p-5">
                 <div class="flex items-center justify-between">
                     <div>
@@ -61,7 +61,6 @@
                 </div>
             </div>
 
-            {{-- Sedang Dipinjam --}}
             <div class="bg-white rounded-xl border border-gray-200 p-5">
                 <div class="flex items-center justify-between">
                     <div>
